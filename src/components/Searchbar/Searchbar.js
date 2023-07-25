@@ -1,20 +1,15 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { FaSearch } from 'react-icons/fa';
 import { Notify } from 'notiflix';
-export default class Searchbar extends Component {
-  
+import './Searchbar.css';
 
-  state = {
-    search: '',
-  };
+function Searchbar({ onSubmit }) {
+  const [search, setSearch] = useState('');
 
-  handleChange = e => {
-    this.setState({ search: e.currentTarget.value.toLowerCase() });
-  };
+  const handleChange = e => setSearch(e.currentTarget.value.toLowerCase());
 
-  handleSubmit = e => {
-    const { search } = this.state;
-
+  const handleSubmit = e => {
     e.preventDefault();
 
     if (search.trim() === '') {
@@ -22,31 +17,34 @@ export default class Searchbar extends Component {
       return;
     }
 
-    this.props.onSubmit(search);
-    this.setState({ search: '' });
-    
+    onSubmit(search);
+    setSearch('');
   };
 
-  render() {
-    return (
-      <div className="nav">
-        <form className="form" onSubmit={this.handleSubmit}>
-          <button type="submit" className="button">
-            <FaSearch />
-          </button>
+  return (
+    <div className="nav">
+      <form className="form" onSubmit={handleSubmit}>
+        <button type="submit" className="button">
+          <FaSearch />
+        </button>
 
-          <input
-            className="form__input"
-            type="text"
-            autoComplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-            name="search"
-            value={this.state.search}
-            onChange={this.handleChange}
-          />
-        </form>
-      </div>
-    );
-  }
+        <input
+          className="form__input"
+          type="text"
+          autoComplete="off"
+          autoFocus
+          placeholder="Search images and photos"
+          name="search"
+          value={search}
+          onChange={handleChange}
+        />
+      </form>
+    </div>
+  );
 }
+
+Searchbar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
+
+export default Searchbar;

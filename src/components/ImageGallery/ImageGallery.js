@@ -1,6 +1,7 @@
-import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
 import React from 'react';
-
+import PropTypes from 'prop-types';
+import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
+import './ImageGallery.css';
 
 function ImageGallery({ images, onOpenModal }) {
   return (
@@ -16,6 +17,16 @@ function ImageGallery({ images, onOpenModal }) {
   );
 }
 
-
+ImageGallery.propTypes = {
+  images: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      webformatURL: PropTypes.string.isRequired,
+      tags: PropTypes.string.isRequired,
+      largeImageURL: PropTypes.string.isRequired,
+    }).isRequired
+  ).isRequired,
+  onOpenModal: PropTypes.func.isRequired,
+};
 
 export default ImageGallery;
